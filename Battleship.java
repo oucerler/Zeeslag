@@ -1,4 +1,10 @@
 package Weekopdracht;
+//FELIX ik ben verder gegaan in mijn alternatief. alle rode kruisjes op een rij:
+//rij25 zegt ie dat ik initializeArray niet als method heb. Rij101, daar is ie
+//rij47 precies hetzelfde, dat ik geen validMove methode heb. Zie rij95
+//rij53 printSea ook weer! Ik zie een wederkomend probleem...
+
+
 //OK Omer wat is de opdracht? Maak Zeeslag
 //Wat heb je nodig? Nou allereerst een Zee. Maak die.
 //Goed zo! Je kunt fokking class en Zee naast elkaar typen
@@ -12,7 +18,7 @@ import java.util.Scanner;
 
 public class Battleship {
 
-	public void main(String[] args) {
+	public static void main(String[] args) {
 		Scanner invoerUser = new Scanner (System.in);
 		char [][] sea = new char [4][4];//afgestapt van nummers, ga even char proberen
 		Ship ship = new Ship();
@@ -22,15 +28,15 @@ public class Battleship {
 		boolean isValid = false;
 		initializeArray(sea);
 		
-		sea[0][0] = (char) ship1.coordinate1;
-		sea[0][1] = (char) ship1.coordinate2;
-		sea[2][0] = (char) ship2.coordinate1;
-		sea[2][1] = (char) ship2.coordinate2;
-		sea[2][2] = (char) ship2.coordinate3;
-		sea[1][4] = (char) ship3.coordinate1;
-		sea[2][4] = (char) ship3.coordinate2;
-		sea[3][4] = (char) ship3.coordinate3;
-		sea[4][4] = (char) ship3.coordinate4;
+//		sea[0][0] = (char) ship1.coordinate1;
+//		sea[0][1] = (char) ship1.coordinate2;
+//		sea[2][0] = (char) ship2.coordinate1;
+//		sea[2][1] = (char) ship2.coordinate2;
+//		sea[2][2] = (char) ship2.coordinate3;
+//		sea[1][4] = (char) ship3.coordinate1;
+//		sea[2][4] = (char) ship3.coordinate2;
+//		sea[3][4] = (char) ship3.coordinate3;
+//		sea[4][4] = (char) ship3.coordinate4;
 		
 		ship.getInfo();
 		
@@ -43,8 +49,8 @@ public class Battleship {
 				if(isValid == false)
 					System.out.println("Sorry Captian, invalid coordinates, please try again");
 			}
-			movesLeft--;
-			printBoard(sea);
+			movesLeft--;//elke beurt één beurt minder
+			printSea(sea);
 			
 			if(hasWinner(sea, player)) {
 				invoerUser.close();
@@ -57,19 +63,10 @@ public class Battleship {
 				movesLeft = 10;
 				initializeArray(sea);
 				player = 'x';
-				System.out.println("no sunk battleship, Captain, start over")
+				System.out.println("No sunk battleship, Captain, start over");
 			}
 	}
-}
-public static boolean  hasWinner(char [][] sea, char player) {
-	if(sea[0][0] == player && sea[0][1] == player)
-		return true;
-	else if(sea[2][0] == player && sea[2][1] == player && sea[2][2] == player)
-		return true;
-	else if(sea[1][4] == player && sea[2][4] == player && sea[3][4] == player && sea[4][4] == player)
-		return true;
-	else
-		return false;
+	System.out.println("You sank a battleship! You win!");
 }
 
 //class Sea{
@@ -83,30 +80,51 @@ public static boolean  hasWinner(char [][] sea, char player) {
 	Ship ship1 = new Ship();
 	Ship ship2 = new Ship();
 	Ship ship3 = new Ship();
-}
-class Ship{
-	int coordinate1;
-	int coordinate2;
-	int coordinate3;
-	int coordinate4;
-	void sink() {
-		System.out.println("You sank a battleship!");
-	}
-	boolean win;
-	void getInfo() {
-		
-	}
-}
 
-public static boolean validMove (int zee) {
-	if(playermove[0] >= 0 && playerMove[0] <= 4 && playerMove[1] >= 4 && playerMove[1] <=4) {
-		
-	};
+public static boolean validMove(char [][] sea, int []playerMove, char player) {
+	if(playerMove[0] >= 0 && playerMove[0] <= 4 && playerMove[1] >= 0 && playerMove[1] <=4) {
+		if(sea[playerMove[0]][playerMove[1]] == '0') {
+			sea[playerMove[0]][playerMove[1]] = player;
+			return true;
+		}
+	}
+	return false;
 }
-void initializeArray(char[][] sea) {//initialiseren van de zee met 0
+static void initializeArray(char[][] sea) {//initialiseren van de zee met 0
 	for(int i = 0; i < sea.length;i++) {
 		for(int j = 0; j < sea[i].length;j++) {
 			sea[i][j] = '0';
 		}
 	}
 }
+
+public static void printSea(char[][] sea) {
+	for(int i = 0; i < sea.length;i++) {
+		for(int j = 0; j < sea[i].length;j++) {
+			System.out.println(sea[i][j] + " ");
+		}
+		System.out.println();
+	}
+}
+
+public static boolean hasWinner(char [][] sea, char player) {
+	if(sea[0][0] == player && sea[0][1] == player)
+		return true;
+	else if(sea[2][0] == player && sea[2][1] == player && sea[2][2] == player)
+		return true;
+	else if(sea[1][4] == player && sea[2][4] == player && sea[3][4] == player && sea[4][4] == player)
+		return true;
+	else
+		return false;
+}}
+class Ship{
+	char coordinate1;
+	char coordinate2;
+	char coordinate3;
+	char coordinate4;
+	void sink() {
+		System.out.println("You sank a battleship!");
+	}
+	boolean win;
+	void getInfo() {	
+	}}
